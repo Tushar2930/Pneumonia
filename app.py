@@ -31,15 +31,11 @@ def app():
             file, target_size=(224, 224))
         image = tf.keras.preprocessing.image.img_to_array(image)
         img = image/255.0
-        disease_class = ['Covid-19', 'Non Covid-19']
-        custom = model.predict(img)
-        st.write(custom[0])
-
-        a = custom[0]
-        ind = np.argmax(a)
-
-        st.write('Prediction:', disease_class[ind], 'with probability of ', np.max(
-            custom[0])*100, '%')
+        x = np.expand_dims(img, axis=0)
+        custom = model.predict(x)
+        custom_labels = np.argmax(custom)
+        classes = ['PNEUMONIA', 'NORMAL']
+        st.write("The image is classified as: ", classes[custom_labels])
         # image = tf.keras.preprocessing.image.load_img(
         #     file, target_size=(224, 224))
         # st.image(image, caption='Uploaded Image.', use_column_width=True)
